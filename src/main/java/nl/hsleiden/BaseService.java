@@ -1,4 +1,4 @@
-package nl.hsleiden.service;
+package nl.hsleiden;
 
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotFoundException;

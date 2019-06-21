@@ -1,12 +1,10 @@
 package nl.hsleiden.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
 import java.security.Principal;
-import nl.hsleiden.View;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.persistence.*;
 
 /**
  * Meer informatie over validatie:
@@ -14,44 +12,62 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  * @author Peter van Vliet
  */
+
+@Entity
+@Table(name = "user")
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "User.FIND_ALL",
+                query = "SELECT * FROM user;",
+                resultClass = User.class
+        ),
+        @NamedNativeQuery(
+                name = "User.FIND_BY_EMAIL",
+                query = "SELECT * FROM user WHERE email = :email",
+                resultClass = User.class
+        )
+})
 public class User implements Principal
 {
-    @NotEmpty
-    @Length(min = 3, max = 100)
-    @JsonView(View.Public.class)
-    private String fullName;
-    
-    @NotEmpty
-    @Length(min = 6, max = 7)
-    @JsonView(View.Public.class)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private long user_id;
+    private String naam;
+    private String voornaam;
     private String postcode;
-    
-    @NotEmpty
-    @Length(min = 1, max = 10)
-    @JsonView(View.Public.class)
-    private String streetnumber;
-    
-    @NotEmpty
-    @Email
-    @JsonView(View.Public.class)
-    private String emailAddress;
-    
-    @NotEmpty
-    @Length(min = 8)
-    @JsonView(View.Protected.class)
-    private String password;
-    
-    @JsonView(View.Private.class)
-    private String[] roles;
+    private int huisnummer;
+    private String toevoeging;
+    private String email;
+    private String wachtwoord;
+    private String rol;
 
-    public String getFullName()
-    {
-        return fullName;
+    public long getUser_id() {
+        return user_id;
     }
 
-    public void setFullName(String fullName)
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getNaam()
     {
-        this.fullName = fullName;
+        return naam;
+    }
+
+    public void setNaam(String naam)
+    {
+        this.naam = naam;
+    }
+
+    public String getVoornaam()
+    {
+        return voornaam;
+    }
+
+    public void setVoornaam(String voornaam)
+    {
+        this.voornaam = voornaam;
     }
 
     public String getPostcode()
@@ -64,71 +80,68 @@ public class User implements Principal
         this.postcode = postcode;
     }
 
-    public String getStreetnumber()
+    public int getHuisnummer()
     {
-        return streetnumber;
+        return huisnummer;
     }
 
-    public void setStreetnumber(String streetnumber)
+    public void setHuisnummer(int huisnummer)
     {
-        this.streetnumber = streetnumber;
+        this.huisnummer = huisnummer;
     }
 
-    public String getEmailAddress()
-    {
-        return emailAddress;
+    public String getToevoeging() {
+        return toevoeging;
     }
 
-    public void setEmailAddress(String emailAddress)
-    {
-        this.emailAddress = emailAddress;
+    public void setToevoeging(String toevoeging) {
+        this.toevoeging = toevoeging;
     }
 
-    public String getPassword()
+    public String getEmail()
     {
-        return password;
+        return email;
     }
 
-    public void setPassword(String password)
+    public void setEmail(String email)
     {
-        this.password = password;
+        this.email = email;
+    }
+
+    public String getWachtwoord()
+    {
+        return wachtwoord;
+    }
+
+    public void setWachtwoord(String wachtwoord)
+    {
+        this.wachtwoord = wachtwoord;
     }
 
     @Override
     @JsonIgnore
     public String getName()
     {
-        return fullName;
+        return naam;
     }
     
-    public String[] getRoles()
+    public String getRol()
     {
-        return roles;
+        return rol;
     }
 
-    public void setRoles(String[] roles)
+    public void setRol(String rol)
     {
-        this.roles = roles;
+        this.rol = rol;
     }
     
-    public boolean hasRole(String roleName)
-    {
-        if (roles != null)
-        {
-            for(String role : roles)
-            {
-                if(roleName.equals(role))
-                {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
-    }
+    public boolean hasRole(String rol) {return this.rol.equals(rol); }
     
     public boolean equals(User user)
     {
-        return emailAddress.equals(user.getEmailAddress());
+        return email.equals(user.getEmail());
     }
+
+
+
 }

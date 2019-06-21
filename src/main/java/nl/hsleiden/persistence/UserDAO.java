@@ -2,82 +2,74 @@ package nl.hsleiden.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import javax.inject.Singleton;
+import javax.inject.Inject;
+
+import io.dropwizard.hibernate.AbstractDAO;
 import nl.hsleiden.model.User;
+import org.hibernate.SessionFactory;
 
 /**
  *
  * @author Peter van Vliet
  */
 @Singleton
-public class UserDAO
+public class UserDAO extends AbstractDAO<User>
 {
-    private final List<User> users;
-    
-    public UserDAO()
+//    private final List<User> users;
+    private SessionFactory sessionFactory;
+
+    @Inject
+    public UserDAO(SessionFactory sessionFactory)
     {
-        User user1 = new User();
-        user1.setFullName("First user");
-        user1.setPostcode("1234AB");
-        user1.setStreetnumber("12");
-        user1.setEmailAddress("first@user.com");
-        user1.setPassword("first");
-        user1.setRoles(new String[] { "GUEST", "ADMIN" });
-        
-        User user2 = new User();
-        user2.setFullName("Second user");
-        user2.setPostcode("9876ZY");
-        user2.setStreetnumber("98");
-        user2.setEmailAddress("second@user.com");
-        user2.setPassword("second");
-        user2.setRoles(new String[] { "GUEST" });
-        
-        users = new ArrayList<>();
-        users.add(user1);
-        users.add(user2);
+        super(sessionFactory);
+        this.sessionFactory = sessionFactory;
+
+//        User user1 = new User();
+//        user1.setUser_id(1);
+//        user1.setNaam("First user");
+//        user1.setPostcode("1234AB");
+//        user1.setStreetnumber("12");
+//        user1.setEmailAddress("first@user.com");
+//        user1.setWachtwoord("first");
+//        user1.setRol("GUEST");
+//
+//        User user2 = new User();
+//        user2.setUser_id(2);
+//        user2.setFullName("Second user");
+//        user2.setPostcode("9876ZY");
+//        user2.setStreetnumber("98");
+//        user2.setEmailAddress("second@user.com");
+//        user2.setWachtwoord("second");
+//        user2.setRol("ADMIN");
+//
+//        users = new ArrayList<>();
+//        users.add(user1);
+//        users.add(user2);
     }
     
-    public List<User> getAll()
+//    public List<User> getAll()
+//    {
+//        return users;
+//    }
+    
+    public User findUserByID(int id)
     {
-        return users;
+        return get(id);
     }
     
-    public User get(int id)
+    public User findUserByEmail (String email)
     {
-        try
-        {
-            return users.get(id);
-        }
-        catch(IndexOutOfBoundsException exception)
-        {
-            return null;
-        }
+        return uniqueResult(namedQuery("User.FIND_BY_EMAIL").setParameter("email", email));
     }
+
+    public User updateOrCreateUser(User user) {
+        return (User) sessionFactory.getCurrentSession().merge(user);
+    }
+    public List findAllUsers(){ return list(namedQuery("User.FIND_ALL"));}
     
-    public User getByEmailAddress(String emailAddress)
-    {
-        Optional<User> result = users.stream()
-            .filter(user -> user.getEmailAddress().equals(emailAddress))
-            .findAny();
-        
-        return result.isPresent()
-            ? result.get()
-            : null;
-    }
-    
-    public void add(User user)
-    {
-        users.add(user);
-    }
-    
-    public void update(int id, User user)
-    {
-        users.set(id, user);
-    }
-    
-    public void delete(int id)
-    {
-        users.remove(id);
-    }
+//    public void delete(int id)
+//    {
+//        users.remove(id);
+//    }
 }
