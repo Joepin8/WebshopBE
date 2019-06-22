@@ -43,7 +43,10 @@ public class UserRoute {
     @POST
     @UnitOfWork
     @Consumes(MediaType.APPLICATION_JSON)
-    public void createUser(User toCreate) {userService.add(toCreate); }
+    public void createUser(User toCreate) {
+    userService.add(toCreate);
+
+    }
 
     /**
      * Gets one specific employee with given id as parameter

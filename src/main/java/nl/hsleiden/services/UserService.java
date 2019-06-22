@@ -36,8 +36,6 @@ public class UserService extends BaseService<User>
     
     public void add(User user)
     {
-        user.setRol("GUEST");
-        
         dao.updateOrCreateUser(user);
     }
 
