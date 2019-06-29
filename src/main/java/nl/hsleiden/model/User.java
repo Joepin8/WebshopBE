@@ -32,7 +32,7 @@ public class User implements Principal
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private long user_id;
+    private int user_id;
     private String naam;
     private String voornaam;
     private String postcode;
@@ -46,7 +46,7 @@ public class User implements Principal
         return user_id;
     }
 
-    public void setUser_id(long user_id) {
+    public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
 

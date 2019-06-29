@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 
+ *
  * @author Peter van Vliet
  */
 public class ClientFilter implements Filter
@@ -20,21 +20,21 @@ public class ClientFilter implements Filter
     {
         // Basic files
         "html", "css", "js", "map", "json",
-        
+
         // Images
         "png", "jpg", "gif", "svg",
-        
+
         // Fonts
         "eot", "ttf", "woff", "woff2",
-        
+
         // Downloads
         "pdf", "zip", "doc", "docx", "xls", "xlsx", "ppt", "pptx"
     };
-    
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException
     {
-        
+
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ClientFilter implements Filter
             && !uri.startsWith("/api")
             && !isAllowedExtension(uri);
     }
-    
+
     private boolean isAllowedExtension(String uri)
     {
         for(String extension : allowedExtensions)
@@ -71,13 +71,13 @@ public class ClientFilter implements Filter
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     @Override
     public void destroy()
     {
-        
+
     }
 }

@@ -17,10 +17,10 @@ public class BaseService<T>
         {
             throw new NotFoundException();
         }
-        
+
         return model;
     }
-    
+
     public void assertSelf(User user1, User user2)
     {
         if (!user1.equals(user2))
