@@ -42,7 +42,7 @@ public class User implements Principal
     private String wachtwoord;
     private String rol;
 
-    public long getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 

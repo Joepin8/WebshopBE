@@ -32,7 +32,7 @@ public class ProductRoute {
      */
     @GET
     @UnitOfWork
-    @RolesAllowed({"ADMIN","GUEST"})
+//    @RolesAllowed({"ADMIN","GUEST"})
     public Collection listProducts() {
         return productService.getAll();
     }
@@ -54,13 +54,12 @@ public class ProductRoute {
     /**
      * Gets one specific product with given id as parameter
      * @param id
-     * @param user
      * @return
      */
     @GET
     @UnitOfWork
     @Path("/{id}")
-    public Product getProduct(@PathParam("id") int id, @Auth User user) {
+    public Product getProduct(@PathParam("id") int id) {
         return productService.getProductById(id);
 
     }
