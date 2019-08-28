@@ -67,20 +67,13 @@ public class CartRoute {
 //
 //    }
 
-    /**
-     * Updates an cart with given id as parameter
-     * @param id
-     * @param toUpdate
-     * @param updater
-     * @return
-     */
+
     @PUT
     @UnitOfWork
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN", "GUEST"})
-    @Path("/{id}")
-    public Cart updateProduct(@PathParam("id") int id, Cart toUpdate, @Auth User updater) {
-        return cartService.updateCart(id, toUpdate, updater);
+    public void updateProduct(Cart cartItem, @Auth User updater) {
+            cartService.updateCart(cartItem.getUserId(), cartItem.getProductId(), cartItem.getAantal(), updater);
     }
 
     @DELETE
@@ -89,6 +82,7 @@ public class CartRoute {
     @RolesAllowed({"ADMIN", "GUEST"})
     @Path("/{uId}&{pId}")
     public void deleteProduct(@PathParam("uId") int uId, @PathParam("pId") int pId, @Auth User deleter) {
+        System.out.println("uID: " + uId + "\t productId" + pId + "\t user: " + deleter.getNaam());
         cartService.deleteProduct(uId, pId, deleter);
     }
 }

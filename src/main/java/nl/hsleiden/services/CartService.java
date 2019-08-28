@@ -39,15 +39,11 @@ public class CartService extends BaseService<Cart>
         dao.updateOrCreateCart(cart);
     }
 
-    public Cart updateCart(int id, Cart newCart, User creator) {
-        Cart oldCart = dao.findCartByID(id);
-
-        if (newCart.getProductId() != oldCart.getProductId() || oldCart.getUserId() != creator.getUser_id()) {
+    public void updateCart(int userId, int productId, int aantal, User creator) {
+        if (userId != creator.getUser_id()) {
             throw new ForbiddenException();
         }
-
-        newCart.setCartId(id);
-        return dao.updateOrCreateCart(newCart);
+        dao.updateCart(userId, productId, aantal);
     }
 
     public void delete(int userId)

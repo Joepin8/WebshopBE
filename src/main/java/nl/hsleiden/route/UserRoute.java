@@ -74,7 +74,7 @@ public class UserRoute {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public User updateUser(@PathParam("id") int id, User toUpdate, @Auth User updater) {
-        return userService.updateUser(id, updater, toUpdate);
+        return userService.updateUser(id, toUpdate, updater);
     }
 
     @GET

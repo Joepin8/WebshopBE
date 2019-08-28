@@ -15,12 +15,17 @@ import javax.persistence.*;
         ),
         @NamedNativeQuery(
                 name = "Cart.DELETE_BY_USER_ID",
-                query = "DELETE * FROM cart WHERE user_id = :userId",
+                query = "DELETE FROM cart WHERE user_id = :userId",
                 resultClass = Cart.class
         ),
         @NamedNativeQuery(
                 name = "Cart.DELETE_PRODUCT",
-                query = "DELETE * FROM cart WHERE user_id = :userId AND product_id = :productId",
+                query = "DELETE FROM cart WHERE user_id = :userId AND product_id = :productId",
+                resultClass = Cart.class
+        ),
+        @NamedNativeQuery(
+                name = "Cart.UPDATE_PRODUCT",
+                query = "UPDATE cart SET hoeveelheid = :aantal WHERE user_id = :userId AND product_id = :productId",
                 resultClass = Cart.class
         )
 })
